@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Domain.Exceptions;
 namespace Domain.Factories
 {
-    internal class DiaryFactory : IDiaryFactory
+    public class DiaryFactory : IDiaryFactory
     {
         public DiaryFactory() { }
 

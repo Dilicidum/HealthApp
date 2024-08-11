@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Persistance;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
-    public class HealthDbContext: IdentityDbContext<IdentityUser,IdentityRole,string>
+    public class HealthDbContext: IdentityDbContext<IdentityUser,IdentityRole,string>, IApplicationContext
     {
         public DbSet<SleepSample> SleepSamples { get; set; }
 

@@ -1,3 +1,7 @@
+using Application;
+using Carter;
+using Domain.Factories;
+using Domain.Persistance;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -6,14 +10,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(AssemblyReference.Assembly));
 builder.Services.AddControllers();
-builder.Services.AddDbContext<HealthDbContext>(options => 
+builder.Services.AddDbContext<IApplicationContext,HealthDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => {
             options.SignIn.RequireConfirmedAccount = false;
         }).AddEntityFrameworkStores<HealthDbContext>();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddCarter();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IDiaryFactory,DiaryFactory>();
+builder.Services.AddScoped<ILearningItemFactory,LearningItemFactory>();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
@@ -25,7 +34,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
-
+app.MapHealthChecks("/health");
+app.MapCarter();
 app.MapControllers();
 
 app.Run();
