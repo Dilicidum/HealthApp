@@ -9,6 +9,6 @@ namespace Domain.Factories
 {
     public interface IDiaryFactory
     {
-        public Diary Create(string Description, string ShortDescription, DateTime? date =  null);
+        public Task<Diary> Create(string Description, string ShortDescription, DateTime? date =  null);
     }
 }
