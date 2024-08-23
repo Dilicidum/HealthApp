@@ -16,7 +16,7 @@ namespace API.Endpoints
         {
             app.MapPost("/", async ([FromBody] CreateDiaryRecordRequest request,ISender sender) =>
             {
-                if(request.Description is null || request.ShortDescription is null)
+                if(request.ShortDescription is null || request.date == null)
                 {
                     return Results.BadRequest("Invalid request body");
                 }
