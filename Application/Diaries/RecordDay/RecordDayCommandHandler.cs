@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Domain.Factories;
 using Domain.Persistance;
 using MediatR;
-namespace Application.Diary.RecordDay
+namespace Application.Diaries.RecordDay
 {
     public class RecordDayCommandHandler(IDiaryFactory diaryFactory, IApplicationContext context) : IRequestHandler<RecordDayCommand>
     {

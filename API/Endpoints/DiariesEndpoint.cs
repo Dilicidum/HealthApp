@@ -1,9 +1,13 @@
-﻿using Application.Diary.RecordDay;
-using Carter;
+﻿using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using API.Requests;
+using System.Reflection;
+using Application.Diaries.RecordDay;
+using Application.Diaries.GetAllDiaryRecords;
+using Application.Diaries.UpdateDiaryRecord;
+using Application.Diaries.GetDiaryRecordId;
 namespace API.Endpoints
 {
     public class DiariesEndpoint : CarterModule
@@ -28,7 +32,39 @@ namespace API.Endpoints
             .Produces(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status500InternalServerError);
+
+            app.MapGet("/", async (ISender sender) => Results.Ok((object?)await sender.Send(new GetAllDiaryRecordsQuery())))
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status500InternalServerError);
+
+            app.MapGet("/{id}", async (int Id,ISender sender) =>
+            {
+                var diary = await sender.Send(new GetDiaryRecordQuery(Id));
+
+                return Results.Ok(diary);
+            })
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest);
+
+
+            app.MapPut("/{id}", async(int Id, [FromBody] UpdateDiaryRecordRequest request,ISender sender) =>
+            {
+                if(request == null)
+                {
+                    return Results.BadRequest();
+                }
+
+                await sender.Send(new UpdateDiaryRecordCommand(Id, request.ShortDescription, request.Description));
+
+                return Results.NoContent();
+            })
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status500InternalServerError);
+
         }
+
+        
 
     }
 }
