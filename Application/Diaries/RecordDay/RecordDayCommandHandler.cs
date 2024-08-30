@@ -12,7 +12,7 @@ namespace Application.Diaries.RecordDay
     {
         public async Task Handle(RecordDayCommand request, CancellationToken cancellationToken)
         {
-            var diary = await diaryFactory.Create(request.Description, request.ShortDescription, request.date);
+            var diary = await diaryFactory.Create(request.Description, request.ShortDescription, request.dayRating,request.date);
             await context.Diaries.AddAsync(diary);
             await context.SaveChangesAsync(cancellationToken);
         }

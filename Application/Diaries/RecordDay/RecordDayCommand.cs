@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Application.Diaries.RecordDay
 {
-    public record RecordDayCommand(string Description, string ShortDescription, DateTime? date = null) : IRequest;
+    public record RecordDayCommand(string Description, string ShortDescription,int dayRating, DateTime? date = null) : IRequest;
 }

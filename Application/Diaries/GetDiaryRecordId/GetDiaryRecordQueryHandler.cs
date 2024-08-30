@@ -15,14 +15,7 @@ namespace Application.Diaries.GetDiaryRecordId
     {
         public async Task<Diary> Handle(GetDiaryRecordQuery request, CancellationToken cancellationToken)
         {
-            var diary = await context.Diaries.Where(x=>x.Id == request.Id).FirstOrDefaultAsync();
-
-            if (diary == null)
-            {
-                throw new InputValidationException($"No object with {request.Id} exists");
-            }
-
-            return diary;
+            return await context.Diaries.Where(x=>x.Id == request.Id).FirstOrDefaultAsync();
         }
     }
 }

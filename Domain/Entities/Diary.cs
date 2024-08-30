@@ -11,10 +11,11 @@ namespace Domain.Entities
     {
         internal Diary() { }
 
-        internal Diary(string description, string shortDescription, DateTime date) {
+        internal Diary(string description, string shortDescription, int dayRating, DateTime date) {
             Date = date;
             Description = description;
             ShortDescription = shortDescription;
+            DayRating = dayRating;
         }
 
         public int Id { get; private set; }
@@ -22,6 +23,8 @@ namespace Domain.Entities
         public DateTime Date { get; private set; }
 
         public string Description { get; private set; }
+
+        public int DayRating { get; private set; }
 
         public string ShortDescription { get; private set; }
 
@@ -43,6 +46,16 @@ namespace Domain.Entities
             }
 
             ShortDescription = shortDescription;
+        }
+
+        public void ChangeDayRating(int dayRating)
+        {
+            if (dayRating <= 0 || dayRating > 10)
+            {
+                throw new InputValidationException("Rating of the day should be within 1 to 10 range");
+            }
+
+            DayRating = dayRating;
         }
     }
 }

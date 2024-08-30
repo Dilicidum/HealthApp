@@ -25,7 +25,7 @@ namespace API.Endpoints
                     return Results.BadRequest("Invalid request body");
                 }
 
-                await sender.Send(new RecordDayCommand(request.Description, request.ShortDescription, request.date));
+                await sender.Send(new RecordDayCommand(request.Description, request.ShortDescription,request.dayRating, request.date));
                 
                 return Results.Created();
             })
@@ -41,6 +41,11 @@ namespace API.Endpoints
             {
                 var diary = await sender.Send(new GetDiaryRecordQuery(Id));
 
+                if(diary == null)
+                {
+                    return Results.NotFound();
+                }
+
                 return Results.Ok(diary);
             })
             .Produces(StatusCodes.Status200OK)
@@ -54,7 +59,7 @@ namespace API.Endpoints
                     return Results.BadRequest();
                 }
 
-                await sender.Send(new UpdateDiaryRecordCommand(Id, request.ShortDescription, request.Description));
+                await sender.Send(new UpdateDiaryRecordCommand(Id, request.ShortDescription, request.dayRating ,request.Description));
 
                 return Results.NoContent();
             })

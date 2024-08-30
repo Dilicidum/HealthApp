@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Application.Diaries.UpdateDiaryRecord
 {
-    public record UpdateDiaryRecordCommand(int Id,string shortDescription, string description): IRequest;
+    public record UpdateDiaryRecordCommand(int Id,string shortDescription,int dayRating, string description): IRequest;
 }
