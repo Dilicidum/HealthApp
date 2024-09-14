@@ -28,6 +28,7 @@ namespace Application.Diaries.UpdateDiaryRecord
 
             diaryRecord.ChangeShortDescription(request.shortDescription);
             diaryRecord.ChangeDescription(request.description);
+            diaryRecord.ChangeDayRating(request.dayRating);
 
             await context.SaveChangesAsync(cancellationToken);
         }
